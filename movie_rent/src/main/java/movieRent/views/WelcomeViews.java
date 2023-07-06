@@ -27,7 +27,7 @@ public class WelcomeViews {
                 break;
             case 2:
                 System.out.println("Go to Create User Page");
-                UserView.ShowAddUser("new");
+                UserView.ShowAddUser();
                 break;
             case 0:
                 System.out.println("Application Closed!");

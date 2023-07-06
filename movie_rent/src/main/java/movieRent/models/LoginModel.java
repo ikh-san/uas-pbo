@@ -5,9 +5,6 @@ import java.sql.Connection;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import com.mysql.cj.protocol.Resultset;
-
 import movieRent.entities.UserEntity;
 
 public class LoginModel {

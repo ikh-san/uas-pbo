@@ -73,7 +73,7 @@ public class MovieView {
     private static void ShowDeleteMovie(String userid) {
         Scanner inputScanner = new Scanner(System.in);
         System.out.println("==========================");
-        System.out.println("movie id: ");
+        System.out.print("movie id: ");
         Integer iMovieId = inputScanner.nextInt();
 
         MovieUsecase movieUsecase = new MovieUsecase();

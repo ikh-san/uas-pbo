@@ -11,9 +11,11 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import movieRent.entities.UserEntity;
+import movieRent.utils.PrintUtils;
 
 public class UserModel {
     private DataSource dataSource;
+    private PrintUtils printUtils;
 
     public UserModel(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -47,21 +49,44 @@ public class UserModel {
     }
 
     public UserEntity[] findAllUser(){
+        printUtils = new PrintUtils(dataSource);
         String sql = "select * from user";
 
         try (
             Connection connection = dataSource.getConnection();
             Statement stmt = connection.createStatement(); 
-            ResultSet resultSet = stmt.executeQuery(sql)
         ) {
+            ResultSet resultSet = stmt.executeQuery(sql);
            List<UserEntity> list = new ArrayList<>(); 
            while(resultSet.next()){
             UserEntity user = new UserEntity();
             user.setUserid(resultSet.getString("userid"));
             list.add(user);
            }
-
+            resultSet = stmt.executeQuery(sql);
+            printUtils.PrintResult(resultSet);
            return list.toArray(new UserEntity[]{});
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean CheckUserExist(String username) {
+        String sql = "SELECT * FROM user WHERE userid = ?";
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                resultSet.close();
+                return true;
+            } else {
+                resultSet.close();
+                return false;
+            }
+
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }

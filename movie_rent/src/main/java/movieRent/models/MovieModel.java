@@ -70,4 +70,68 @@ public class MovieModel {
         }
 
     }
+
+    public boolean CheckMovieExist(Integer movie_id) {
+        String sql = "SELECT * FROM movie WHERE movie_id = ?";
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, movie_id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                resultSet.close();
+                return true;
+            } else {
+                resultSet.close();
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+
+    public boolean IsRentUseThisMovie(Integer movie_id) {
+        String sql = "SELECT * FROM rent r, movie m where r.movie_id = m.movie_id and r.movie_id = ?";
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, movie_id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                resultSet.close();
+                return true;
+            } else {
+                resultSet.close();
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean CheckTitleExist(String title) {
+        String sql = "SELECT * FROM movie WHERE movie_title = ?";
+        try (
+                Connection connection = dataSource.getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, title);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if (resultSet.next()) {
+                resultSet.close();
+                return true;
+            } else {
+                resultSet.close();
+                return false;
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 }

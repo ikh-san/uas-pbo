@@ -17,11 +17,7 @@ public class RentUsecase {
     }
 
     public void GetRentList() {
-        RentEntity[] rentlist = rentModel.FindALLRent();
-        System.out.println("Rent ID | Rent Date | Return Date | Movie ID | Movie Title | Movie Genre | Renter ID | ");
-        for (RentEntity rent : rentlist) {
-            System.out.println(rent.getRentId() + " | " + rent.getRentDate()+ " | " + rent.getReturnDate() + " | " + rent.getMovieId() + " | " + rent.getMovieTitle() + " | " + rent.getMovieGenre() + " | " + rent.getUserid());
-        }
+        rentModel.FindALLRent();
     }
 
     public void AddRent(String userid, Integer movieid) {

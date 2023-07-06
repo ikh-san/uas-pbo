@@ -35,7 +35,7 @@ public class UserView {
                 ShowUserMain(userid);
                 break;
             case 2:
-                ShowAddUser(userid);
+                ShowAddUser();
                 break;
             case 3:
                 ShowChangePassword(userid);
@@ -50,18 +50,21 @@ public class UserView {
         }
         inputScanner.close();
     }
-    public static void ShowAddUser(String userid) {
+    public static void ShowAddUser() {
         Scanner inputScanner = new Scanner(System.in);
-        System.out.println("=======================");
-        System.out.println("userid: ");
-        String sUserid = inputScanner.nextLine();
-        System.out.println("password: ");
-        String sPassword = inputScanner.nextLine();
-
         UserUsecase userUsecase = new UserUsecase();
-        userUsecase.AddUser(sUserid, sPassword);
-
-        ShowUserMain(userid);
+        System.out.println("=======================");
+        System.out.print("userid: ");
+        String sUserid = inputScanner.nextLine();
+        if (!userUsecase.IsUserExist(sUserid)) {
+            System.out.print("password: ");
+            String sPassword = inputScanner.nextLine();
+            userUsecase.AddUser(sUserid, sPassword);
+            } else {
+                System.out.println("userid " + sUserid + " is already exists");
+                
+            }
+        WelcomeViews.ShowWelcomeView();
         inputScanner.close();
     }
 

@@ -24,7 +24,8 @@ public class RentView {
         System.out.println("[1] - Rent List");
         System.out.println("[2] - Add New Rent");
         System.out.println("[3] - Return Rent");
-        System.out.println("[0] - Back to Welcome Page");
+        System.out.println("[4] - Back to Home Page");
+        System.out.println("[0] - Logout");
         System.out.println();
         System.out.print("Input Menu (number) : ");
         Integer menu = inputScanner.nextInt();
@@ -43,6 +44,9 @@ public class RentView {
                 break;
             case 3:
                 ShowReturnRent(userid);
+                break;
+            case 4:
+                HomeView.ShowHomePage(userid);
                 break;
             default:
                 System.out.println("Please input the correct number from menu");

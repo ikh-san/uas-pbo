@@ -10,15 +10,18 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import movieRent.entities.RentEntity;
+import movieRent.utils.PrintUtils;
 
 public class RentModel {
     private DataSource dataSource;
+    private PrintUtils printUtils;
 
     public RentModel(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     public RentEntity[] FindALLRent() {
+        printUtils = new PrintUtils(dataSource);
         String sql = "SELECT a.*,b.movie_title,b.movie_genre FROM rent a left join movie b on a.movie_id = b.movie_id";
         try (
                 Connection connection = dataSource.getConnection();
@@ -37,6 +40,8 @@ public class RentModel {
                 rent.setMovieGenre(resultSet.getString("movie_genre"));
                 list.add(rent);
             }
+            resultSet = stmt.executeQuery();
+            printUtils.PrintResult(resultSet);
             return list.toArray(new RentEntity[] {});
         } catch (SQLException ex) {
             throw new RuntimeException();

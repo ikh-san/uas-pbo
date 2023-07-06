@@ -5,6 +5,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import movieRent.entities.UserEntity;
 import movieRent.models.UserModel;
 import movieRent.utils.DBConnectionUtil;
+import movieRent.utils.ValidationUtils;
 
 public class UserUsecase {
     private HikariDataSource dataSource;
@@ -16,18 +17,20 @@ public class UserUsecase {
     }
 
     public void GetUserList() {
-        UserEntity[] userList = userModel.findAllUser();
-        for (UserEntity user : userList) {
-            System.out.println("- "+user.getUserid());
-        }
+        userModel.findAllUser();
     }
 
     public void AddUser(String userid, String pass) {
         UserEntity userData = new UserEntity();
         userData.setUserid(userid);
         userData.setPassword(pass);
-        userModel.CreateUser(userData);
-        System.out.println("Create User Succeed");
+        try {
+            ValidationUtils.RegisterValidate(userData);
+            userModel.CreateUser(userData);
+            System.out.println("Create User Succeed");
+        } catch (Throwable ex) {
+            System.out.println("Register invalid - " + ex.getMessage());
+        }
     }
 
     public void ChangePasswordUser(String newuserid, String newpass) {
@@ -36,5 +39,13 @@ public class UserUsecase {
         userData.setPassword(newpass);
         userModel.ChangePassword(userData);
         System.out.println("Change Password Succeed!");
+    }
+
+    public Boolean IsUserExist(String username) {
+        if (userModel.CheckUserExist(username)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
